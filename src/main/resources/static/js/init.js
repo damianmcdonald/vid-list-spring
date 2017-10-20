@@ -45,10 +45,13 @@ function getVideoList() {
 		data:{},
 		type:'GET',
 		success:function ( data ) {
+			/*
 			$.each(data, function( index, id ) {
 				VIDEO_IDS.push(id);
 			});
 			getVideoById();
+			*/
+			getVideos();
 		}
 	})
 	.error( function() {
@@ -64,7 +67,7 @@ function getVideoById() {
 			data:{},
 			type:'GET',
 			success:function ( data ) {
-				var content = addContentElement(data);
+				addContentElement(data);
 				if(CONTENT_DATA.length == VIDEO_IDS.length) {
 					renderGrid();
 				}
@@ -74,7 +77,24 @@ function getVideoById() {
 			console.log("error");
 		});
 	});
+}
 
+function getVideos() {
+	console.log("Calling getVideos");
+	$.ajax( '/video', {
+		dataType:'json',
+		data:{},
+		type:'GET',
+		success:function ( data ) {
+			$.each(data.results, function( index, video ) {
+				addContentElement(video);
+			});
+			renderGrid();
+		}
+	})
+	.error( function() {
+		console.log("error");
+	});
 }
 
 function addContentElement(video) {

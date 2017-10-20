@@ -26,4 +26,10 @@ public class VidListController {
         return vidListService.getVideoDataById(id);
     }
 
+    @RequestMapping(value = "/video", method = RequestMethod.GET)
+    public @ResponseBody
+    String getVideoById() throws Exception {
+        return vidListService.getVideoData();
+    }
+
 }
