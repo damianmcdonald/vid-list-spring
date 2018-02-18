@@ -3,17 +3,9 @@ var MAX_SCROLLABLE = 300;
 var INFO_URL_MOVIE = "https://www.themoviedb.org/movie/";
 var INFO_URL_TV = "https://www.themoviedb.org/tv/";
 var POSTER_PATH = "http://image.tmdb.org/t/p/w342/";
-var VIDEO_IDS = [];
 var CONTENT_DATA = [];
 
 $( document ).ready(function() {
-
-	document.getElementById("loading-overlay").style.width = "100%";
-
-	// render and show the grid
-	initializeAndRenderGrid();
-	showElementByClassifier("#grid-container");
-
 
     // add scroll logic so that when the screen has been scrolled past
     // MAX_SCROLLABLE we can show a 'back to top' button
@@ -33,60 +25,37 @@ $( document ).ready(function() {
         return false;
     });
 
+
+	// animate the back-to-top effect
+	$('#category-movie').click(function() {
+		clearArray(CONTENT_DATA);
+		getVideos("MOVIE");
+		return false;
+	});
+
+	$('#category-tvshow').click(function() {
+		clearArray(CONTENT_DATA);
+		getVideos("TV_SHOW");
+		return false;
+	});
+
+	$('#category-documentary').click(function() {
+		clearArray(CONTENT_DATA);
+		getVideos("DOCUMENTARY");
+		return false;
+	});
+
 });
 
-function initializeAndRenderGrid() {
-	getVideoList();
-}
-
-function getVideoList() {
-	$.ajax( '/vidids', {
-		dataType:'json',
-		data:{},
-		type:'GET',
-		success:function ( data ) {
-			/*
-			$.each(data, function( index, id ) {
-				VIDEO_IDS.push(id);
-			});
-			getVideoById();
-			*/
-			getVideos();
-		}
-	})
-	.error( function() {
-		console.log("error");
-	});
-}
-
-function getVideoById() {
-	console.log(VIDEO_IDS);
-	$.each(VIDEO_IDS, function( index, id ) {
-		$.ajax( '/video/'+id, {
-			dataType:'json',
-			data:{},
-			type:'GET',
-			success:function ( data ) {
-				addContentElement(data);
-				if(CONTENT_DATA.length == VIDEO_IDS.length) {
-					renderGrid();
-				}
-			}
-		})
-		.error( function() {
-			console.log("error");
-		});
-	});
-}
-
-function getVideos() {
+function getVideos(category) {
 	console.log("Calling getVideos");
-	$.ajax( '/video', {
+	$.ajax( '/video/'+category, {
 		dataType:'json',
 		data:{},
 		type:'GET',
 		success:function ( data ) {
-			$.each(data.results, function( index, video ) {
+			console.log(data);
+			$.each(data, function( index, video ) {
 				addContentElement(video);
 			});
 			renderGrid();
@@ -135,8 +104,6 @@ function renderGrid() {
 	});
 
 	$('.grid').html(html);
-
-	document.getElementById("loading-overlay").style.width = "0%";
 }
 
 function generateContentElement(content) {
@@ -169,6 +136,6 @@ function generateContentElement(content) {
 	return html;
 }
 
-function showElementByClassifier(elem) {
-	$(elem).show();
+function clearArray(arr) {
+	arr.length = 0;
 }

@@ -14,22 +14,10 @@ public class VidListController {
     @Autowired
     VidListService vidListService;
 
-    @RequestMapping(value = "/vidids", method = RequestMethod.GET)
+    @RequestMapping(value = "/video/{category}", method = RequestMethod.GET)
     public @ResponseBody
-    String[] geVidIds() throws Exception {
-        return vidListService.getVidIds();
-    }
-
-    @RequestMapping(value = "/video/{id}", method = RequestMethod.GET)
-    public @ResponseBody
-    String getVideoById(@PathVariable final String id) throws Exception {
-        return vidListService.getVideoDataById(id);
-    }
-
-    @RequestMapping(value = "/video", method = RequestMethod.GET)
-    public @ResponseBody
-    String getVideoById() throws Exception {
-        return vidListService.getVideoData();
+    String getVideoByCategory(@PathVariable final String category) throws Exception {
+        return vidListService.getVideoData(category);
     }
 
 }
