@@ -1,7 +1,7 @@
 :source-highlighter: coderay
 :data-uri:
 
-`vid-list-spring` is a simple Spring Boot video catalog application that displays Movie and TV Show data sourced from https://www.themoviedb.org/documentation/api[themoviedb api].
+`vid-list-spring` is a simple Spring Boot video catalogue application that displays Movie and TV Show data sourced from https://www.themoviedb.org/documentation/api[themoviedb api].
 
 == Getting started
 
